@@ -7,7 +7,7 @@ import scipy.stats as stats
 from scipy.stats import kurtosis, skew, shapiro ,norm, t
 import altair as alt
 
-HOLA
+#HOLA
 
 
 st.cache_data.clear()
