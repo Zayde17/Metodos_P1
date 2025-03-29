@@ -49,7 +49,6 @@ with st.spinner("Descargando datos..."):
     df_precios = obtener_datos(stocks_lista)
     df_rendimientos = calcular_rendimientos(df_precios)
 
-    print(df_rendimientos)
 
 #######################################---FRONTEND---##################################################
 
