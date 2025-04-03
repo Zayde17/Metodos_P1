@@ -192,3 +192,25 @@ if stock_seleccionado:
     print(ESN_rolling_df_95)
 
     print(ESH_rolling_df_99)
+
+merged_df_95 = pd.DataFrame({
+    'Return': df_rendimientos[stock_seleccionado],
+    'VaR 95% (Normal)': VaRN_rolling_df_95['0.95% VaR Rolling'],
+    'ES 95% (Normal)': ESN_rolling_df_95['0.95% ESN Rolling']
+}).dropna()
+
+# Creamos la figura
+fig, ax = plt.subplots(figsize=(14, 6))
+ax.plot(merged_df_95.index, merged_df_95['Return'] * 100, label='Retorno Diario (%)', color='blue', alpha=0.5)
+ax.plot(merged_df_95.index, merged_df_95['VaR 95% (Normal)'] * 100, label='VaR 95% (Normal)', color='red')
+ax.plot(merged_df_95.index, merged_df_95['ES 95% (Normal)'] * 100, label='ES 95% (Normal)', color='green')
+
+# Estética del gráfico
+ax.set_title('Rolling VaR y ES al 95% (Normal)')
+ax.set_ylabel('Valor (%)')
+ax.set_xlabel('Fecha')
+ax.legend()
+plt.grid(True)
+
+# Mostrar en Streamlit
+st.pyplot(fig)
