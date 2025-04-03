@@ -37,7 +37,7 @@ with st.spinner("Descargando datos..."):
 
 
 #######################################---FRONTEND---##################################################
-#######################################---FRONTEND---##################################################
+
 
 st.header("Selección de Acción")
 st.text("Selecciona una acción de la lista ya que a partir de ella se calculará todo lo que se indica en cada ejercicio")
@@ -176,3 +176,17 @@ if stock_seleccionado:
         df_violaciones.set_index("Alpha").style.format("{:.2f}%")
         .applymap(lambda val: "background-color: #FFB3BA; color: black" if val > 2.5 else "background-color: #B5EAD7; color: black")
     )
+
+    st.subheader("Evaluación de Violaciones")
+
+# ... cálculo de violaciones ...
+
+st.markdown("""
+Este cuadro muestra el porcentaje de veces que el retorno real fue menor al VaR estimado para cada método y nivel de confianza.
+Una buena estimación debe generar un **porcentaje de violaciones menor al 2.5%**.
+""")
+
+st.dataframe(
+    df_violaciones.set_index("Alpha").style.format("{:.2f}%")
+    .applymap(lambda val: "background-color: #FFB3BA; color: black" if val > 2.5 else "background-color: #B5EAD7; color: black")
+)
