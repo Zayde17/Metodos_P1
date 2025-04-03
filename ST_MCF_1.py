@@ -112,6 +112,11 @@ if stock_seleccionado:
     window = 252
     rendimientos = df_rendimientos[stock_seleccionado].values
     violaciones_data = []
+    
+if len(rendimientos) <= window:
+    st.warning("No hay suficientes datos históricos para evaluar violaciones (mínimo 253 días requeridos).")
+else:
+    # aquí va todo el código del for alpha in alphas
 
     for alpha in alphas:
         violaciones = {
@@ -177,16 +182,3 @@ if stock_seleccionado:
         .applymap(lambda val: "background-color: #FFB3BA; color: black" if val > 2.5 else "background-color: #B5EAD7; color: black")
     )
 
-    st.subheader("Evaluación de Violaciones")
-
-# ... cálculo de violaciones ...
-
-st.markdown("""
-Este cuadro muestra el porcentaje de veces que el retorno real fue menor al VaR estimado para cada método y nivel de confianza.
-Una buena estimación debe generar un **porcentaje de violaciones menor al 2.5%**.
-""")
-
-st.dataframe(
-    df_violaciones.set_index("Alpha").style.format("{:.2f}%")
-    .applymap(lambda val: "background-color: #FFB3BA; color: black" if val > 2.5 else "background-color: #B5EAD7; color: black")
-)
