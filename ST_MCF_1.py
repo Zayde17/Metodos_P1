@@ -86,6 +86,7 @@ def calcular_es_historico_r_99(rendimientos):
         return np.nan
     var = rendimientos.quantile(1 - 0.99)
     return rendimientos[rendimientos <= var].mean()
+
 #################################################################################################################33
 #inciso e)
 
@@ -101,9 +102,13 @@ def calcular_violaciones_var(df_rendimientos, stock_seleccionado, var_dict):
     
     return resultados
 
+def color_porcentaje(val):
+        color = 'red' if val > 2.5 else 'green'
+        return f'color: {color}; font-weight: bold'
 ###################################################################################################################
+
 # Lista de acciones de ejemplo
-stocks_lista = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN']
+stocks_lista = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'AMZN','SPY']
 
 
 with st.spinner("Descargando datos..."):
@@ -115,7 +120,7 @@ with st.spinner("Descargando datos..."):
 
 st.header("Selección de Acción")
 
-st.text("Selecciona una acción de la lista ya que apartir de ella se calculara todo lo que se indica en cada ejercicio")
+st.text("Selecciona una acción de la lista ya que a esta se le aplicarán las métricas de riesgo, además de su robustes de los modelos a traves del número de violaciones")
 
 stock_seleccionado = st.selectbox("Selecciona una acción", stocks_lista)
 
@@ -132,7 +137,6 @@ if stock_seleccionado:
     col2.metric("Kurtosis", f"{Kurtosis:.4}")
     col3.metric("Skew", f"{skew:.2}")
 
-    #GRAFICA AGREGADA AL FINAL CUANDO MIS HUEVOS PELIGRABAN DE LOS RENDIMIENTOS DIARIOS PA Q SE VEA BONITO
 
     st.subheader("Gráfico de Rendimientos Diarios") #oliwis :)
 
@@ -151,8 +155,6 @@ if stock_seleccionado:
 
 
     # Calcular rendimientos logarítmicos 
-    #Aaaaaaaaaaaaaaaa pero queria que se viera bonito
-
 
     #Calculo de Value-At-Risk y de Expected Shortfall (historico)
 
@@ -163,6 +165,7 @@ if stock_seleccionado:
     resultados = []
     df_size = df_rendimientos[stock_seleccionado].size
     df_t = df_size - 1  # Grados de libertad para t-Student
+
     # Calcular VaR y ES para cada nivel de confianza
     for alpha in alphas:
         hVaR, ES_hist = var_es_historico(df_rendimientos, stock_seleccionado, alpha)
@@ -194,6 +197,7 @@ if stock_seleccionado:
 
     
     ##################################################################################################
+#inciso d)
     
     #Calculo de VaR y ES con Rolling Window
 
@@ -224,13 +228,11 @@ if stock_seleccionado:
 
     #Calculamos el valor para ESH_R 95%
 
-
     ESH_R_95 = df_rendimientos[stock_seleccionado].rolling(window).apply(calcular_es_historico_r_95, raw=True)
     ESH_rolling_df_95 = pd.DataFrame({'Date': df_rendimientos.index, '0.95% ESH Rolling': ESH_R_95}).set_index('Date')
 
-################################################### Esta mamada de parte como la oodie ojala se retuersan en sus tumbas las personas que hicieron esto
-
    #Calculamos el valor de VaR_R (Parametrico normal) 99%
+
     VaRN_R_99 = norm.ppf(1-0.99, rolling_mean, rolling_std)
     VaRN_rolling_df_99 = pd.DataFrame({'Date': df_rendimientos.index, '0.99% VaRN Rolling': VaRN_R_99}).set_index('Date')
 
@@ -249,10 +251,9 @@ if stock_seleccionado:
     ESH_R_99 = df_rendimientos[stock_seleccionado].rolling(window).apply(calcular_es_historico_r_99, raw=True) #mira nomas esta mmda estas mmdaassss de ESSSSSSSs me tocaron mis huevoossss me queria colgar ahora no pyedo leer ES pq me quiero colgar de los huevos
     ESH_rolling_df_99 = pd.DataFrame({'Date': df_rendimientos.index, '0.99% ESH Rolling': ESH_R_99}).set_index('Date')
 
+    st.subheader("Gráficos del VaR y ES con Rolling Window al 95% y 99% (Paramétrico (Normal) e Histórico)")
 
-    st.subheader("Gráficos del VaR y ES con Rolling Window al 95% y 99% (Parametrico (Normal) y Historico)")
-
-    st.text("Acontinuacion observaremos los resultados del VaR parametrico (Normal) como tambien el historico al 99% y al 95%")
+    st.text("A continuación observaremos los resultados del VaR Paramétrico (Normal) como también el histórico al 99% y al 95%")
 
     # Graficamos los resultados de VaR y ES con Rolling Window al 95%
 
@@ -318,9 +319,7 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
-#inga tu roña mira q grafica tan bonita pensar q me tomo 3 dias hacerla y entender pq daba error me tomo solo mi salud mental
-
-    st.text("Acontinuacion onbservaremos los resultados del ES parametrico (Normal) como tambien el historico al 99% y al 95%")
+    st.text("A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%")
     
     # Preparar los datos combinados
     df_es = pd.concat([
@@ -370,15 +369,15 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
+####################################################################################################################################
+#inciso e)
 
-    #################################################################### vtl aqui casi me cago
-
-    # Calculo de violaciones de VaR y ES con Rolling Window
+    # Cálculo de violaciones de VaR y ES con Rolling Window
 
     st.header("Cálculo de Violaciones de VaR y ES con Rolling Window")
-    st.text("Acontinuacion se calcularan las violaciones de los resultados obtenidos anteriormente es decir calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularon con rolling window")
+    st.text("A continuacion se calcularán las violaciones de los resultados obtenidos anteriormente, es decir calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularón con Rolling window")
     
-    var_dict = {#como odio los diccionarios
+    var_dict ={
         "VaR Normal 95%": VaRN_rolling_df_95['0.95% VaRN Rolling'],
         "ES Normal 95%": ESN_rolling_df_95['0.95% ESN Rolling'],
         "VaR Histórico 95%": VaRH_rolling_df_95['0.95% VaRH Rolling'],
@@ -394,10 +393,8 @@ if stock_seleccionado:
     df_resultados = pd.DataFrame.from_dict(resultados_var, orient='index', columns=['Violaciones', 'Porcentaje (%)']).reset_index()
     df_resultados[['Método', 'Nivel de Confianza']] = df_resultados['index'].str.rsplit(' ', n=1, expand=True)
     df_resultados = df_resultados[['Método', 'Nivel de Confianza', 'Violaciones', 'Porcentaje (%)']]
+
     # Mostrar tabla con estilo
-    def color_porcentaje(val):
-        color = 'red' if val > 2.5 else 'green'
-        return f'color: {color}; font-weight: bold'
 
     st.dataframe(
     df_resultados.style
@@ -406,19 +403,23 @@ if stock_seleccionado:
     hide_index=True  # Ocultar la primera columna de índice
     )
 
-    ############################################################################################### jajajaj q cagdo pongo esto pa separar y creo q se ve mas ogt
+##############################################################################################################################3
+#inciso f)
 
     st.subheader("Cálculo de VaR con Volatilidad Móvil")
 
     # Percentiles para la distribución normal estándar
+
     q_5 = norm.ppf(0.05)  # Para α = 0.05
     q_1 = norm.ppf(0.01)  # Para α = 0.01
 
-    # Calcular el VaR con volatilidad móvil (mas me muevo yo mientras me retuerso)
+    # Calcular el VaR con volatilidad móvil 
+
     VaR_vol_95 = q_5 * rolling_std
     VaR_vol_99 = q_1 * rolling_std
 
-    # Convertir a DataFrame para graficar si dios existe pq no estoy con el
+    # Convertir a DataFrame para graficar 
+
     VaR_vol_df = pd.DataFrame({
         'Date': df_rendimientos.index,
         'VaR_vol_95': VaR_vol_95,
@@ -426,9 +427,11 @@ if stock_seleccionado:
     }).set_index('Date')
 
     # Preparar datos
+
     df_rend_plot = df_rendimientos.reset_index().rename(columns={'index': 'Date'})
 
     # Preparar datos de VaR
+
     df_var_vol = VaR_vol_df.reset_index().melt(id_vars='Date', 
                                             value_vars=['VaR_vol_95', 'VaR_vol_99'],
                                             var_name='Métrica', 
@@ -439,6 +442,7 @@ if stock_seleccionado:
     })
 
     # Capa de VaR
+
     var_layer = alt.Chart(df_var_vol.dropna()).mark_line(
         strokeWidth=2
     ).encode(
@@ -456,6 +460,7 @@ if stock_seleccionado:
     )
 
     # Combinar y personalizar
+
     chart = (base + var_layer).properties(
         title=f'VaR con Volatilidad Móvil - {stock_seleccionado}',
         width=800,
@@ -475,9 +480,8 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
-    #Ya solo faltan las violaciones pero la neta q flojera, si las voy a hacer pero la neta q coraje me quurisad colgar d lis guevoosssssssssss
+    # Calcular violaciones 
 
-    # Calcular violaciones mas violado me senti yo haciendo esto :))))
     var_dict2 = {
     "VaR Volatilidad Móvil 95%": VaR_vol_df["VaR_vol_95"],
     "VaR Volatilidad Móvil 99%": VaR_vol_df["VaR_vol_99"]
@@ -487,3 +491,15 @@ if stock_seleccionado:
 
     for metodo, (violaciones, porcentaje) in resultados_var2.items():
         st.text(f"{metodo}: {violaciones} violaciones ({porcentaje:.2f}%)")
+
+
+    df_resultados2 = pd.DataFrame.from_dict(resultados_var2, orient='index', columns=['Violaciones', 'Porcentaje (%)']).reset_index()
+    df_resultados2[['Método', 'Nivel de Confianza']] = df_resultados2['index'].str.rsplit(' ', n=1, expand=True)
+    df_resultados2 = df_resultados[['Método', 'Nivel de Confianza', 'Violaciones', 'Porcentaje (%)']]
+
+    st.dataframe(
+    df_resultados2.style
+    .format({'Porcentaje (%)': '{:.2f}%', 'Observaciones Válidas': '{:.0f}'})
+    .applymap(color_porcentaje, subset=['Porcentaje (%)']),
+    hide_index=True  # Ocultar la primera columna de índice
+    )
