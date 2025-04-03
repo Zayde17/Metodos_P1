@@ -18,6 +18,7 @@ st.title("Calculo de Value-At-Risk y de Expected Shortfall.")
 
 st.title("Visualización de Rendimientos de Acciones")
 # st.write('hola')
+
 @st.cache_data
 def obtener_datos(stocks):
     df = yf.download(stocks, start="2010-01-01")['Close']
@@ -270,6 +271,7 @@ if stock_seleccionado:
 
     # Dataframe de rendimientos (convertir índice a columna 'Date')
     df_rend_plot = df_rendimientos.reset_index().rename(columns={'index': 'Date'})
+
     # Convertir a porcentaje
     df_rendimientos_plot = df_rendimientos.reset_index()
 
@@ -283,6 +285,7 @@ if stock_seleccionado:
     ))
 
     # Capa de VaR
+
     var_layer = alt.Chart(df_var).mark_line(
         strokeWidth=2
     ).encode(
@@ -350,6 +353,7 @@ if stock_seleccionado:
     )
 
     # Combinar las capas
+    
     chart = (base + es_layer).properties(
         title=f'VaR con Volatilidad Móvil - {stock_seleccionado}',
         width=800,
@@ -369,7 +373,7 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
-####################################################################################################################################
+    ###################################################################################################################################
 #inciso e)
 
     # Cálculo de violaciones de VaR y ES con Rolling Window
@@ -403,7 +407,7 @@ if stock_seleccionado:
     hide_index=True  # Ocultar la primera columna de índice
     )
 
-##############################################################################################################################3
+    ##############################################################################################################################
 #inciso f)
 
     st.subheader("Cálculo de VaR con Volatilidad Móvil")
