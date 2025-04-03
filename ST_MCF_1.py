@@ -169,10 +169,10 @@ if stock_seleccionado:
 
     # Calcular VaR y ES para cada nivel de confianza
     for alpha in alphas:
-        hVaR, ES_hist = var_es_historico(df_rendimientos, stock_seleccionado, alpha)
-        VaR_norm, ES_norm = var_es_parametrico_normal(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado)
-        VaR_t, ES_t = var_es_parametrico_t(rendimiento_medio, std_dev, df_t, alpha, df_rendimientos, stock_seleccionado)
-        VaR_mc, ES_mc = var_es_montecarlo(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado)
+        hVaR, ES_hist = var_es_historico(df_rendimientos, stock_seleccionado, alpha) * (-1)
+        VaR_norm, ES_norm = var_es_parametrico_normal(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado) * (-1)
+        VaR_t, ES_t = var_es_parametrico_t(rendimiento_medio, std_dev, df_t, alpha, df_rendimientos, stock_seleccionado) * (-1)
+        VaR_mc, ES_mc = var_es_montecarlo(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado) * (-1)
         
         resultados.append([alpha, hVaR, ES_hist, VaR_norm, ES_norm, VaR_t, ES_t, VaR_mc, ES_mc])
 
@@ -195,18 +195,18 @@ if stock_seleccionado:
     st.subheader("Gráfico de comparación de VaR y ES")
     st.text("Este gráfico muestra la comparación de los diferentes métodos de cálculo de VaR y ES")
     st.bar_chart(df_resultados.set_index("Alpha").T)
-    st.text("Sin profundizar en cada método, el ES bajo la t de Student (ES_t) se posiciona como el estimador de riesgo más robusto, al capturar" \
+    st.text("Sin profundizar en cada método, el ES bajo la t de Student (ES_t) se posiciona como el estimador de riesgo más robusto, al capturar " \
     "adecuadamente las pérdidas extremas en activos volátiles. Aunque puede sobreestimar en algunos casos, esto se debe a la alta volatilidad de " \
     "los últimos 10 años, por lo que una mejora sería acotar el historial a un rango más reciente, como 5 años.") 
 
     st.text("En contraste, los demás métodos tienden a subestimar o sobreestimar el riesgo según la forma de los retornos y los eventos incluidos. El método histórico es el que más tiende " \
     "a sobreestimar el riesgo, debido a la inclusión de eventos extremos poco representativos del contexto actual, como crisis financieras o la pandemia, " \
     "lo que lo convierte en el menos confiable de los analizados.")
-    
-    st.text("Solo el modelo normal se aproxima en algunos escenarios al de la t, dado su parentesco matemático." \
+
+    st.text("Solo el modelo normal se aproxima en algunos escenarios al de la t dado su parentesco matemático." \
     "En resumen, ES_t destaca como el modelo más coherente para una gestión de riesgo prudente, siempre que se ajuste adecuadamente el periodo histórico a analizar.")
     
-    ##################################################################################################
+    ###############################################################################################################################
 #inciso d)
     
     #Calculo de VaR y ES con Rolling Window
@@ -263,7 +263,7 @@ if stock_seleccionado:
 
     st.subheader("Gráficos del VaR y ES con Rolling Window al 95% y 99% (Paramétrico (Normal) e Histórico)")
 
-    st.text("A continuación observaremos los resultados del VaR Paramétrico (Normal) como también el histórico al 99% y al 95%")
+    st.text("A continuación observaremos los resultados del VaR Paramétrico (Normal) como también el histórico al 99% y al 95%.")
 
     # Graficamos los resultados de VaR y ES con Rolling Window al 95%
 
@@ -331,7 +331,7 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
-    st.text("A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%")
+    st.text("A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%.")
     
     # Preparar los datos combinados
     df_es = pd.concat([
@@ -388,7 +388,7 @@ if stock_seleccionado:
     # Cálculo de violaciones de VaR y ES con Rolling Window
 
     st.header("Cálculo de Violaciones de VaR y ES con Rolling Window")
-    st.text("A continuacion se calcularán las violaciones de los resultados obtenidos anteriormente, es decir, calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularón con Rolling window")
+    st.text("A continuación se calcularán las violaciones de los resultados obtenidos anteriormente, es decir, calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularón con Rolling Window.")
     
     var_dict ={
         "VaR Normal 95%": VaRN_rolling_df_95['0.95% VaRN Rolling'],
