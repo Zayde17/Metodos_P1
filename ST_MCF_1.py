@@ -195,6 +195,9 @@ if stock_seleccionado:
     st.subheader("Gráfico de comparación de VaR y ES")
     st.text("Este gráfico muestra la comparación de los diferentes métodos de cálculo de VaR y ES")
     st.bar_chart(df_resultados.set_index("Alpha").T)
+    st.text("Este método utiliza los datos históricos de rendimientos para estimar la pérdida máxima esperada en un nivel de confianza. " \
+    "Aunque es intuitivo y refleja eventos extremos pasados, puede sobreestimar el riesgo si el periodo histórico incluye eventos extraordinarios, como la pandemia de COVID-19. " \
+    "Por tanto, su uso debe considerar el contexto temporal y la representatividad de los datos.")
 
     
     ##################################################################################################
@@ -353,7 +356,7 @@ if stock_seleccionado:
     )
 
     # Combinar las capas
-    
+
     chart = (base + es_layer).properties(
         title=f'VaR con Volatilidad Móvil - {stock_seleccionado}',
         width=800,
