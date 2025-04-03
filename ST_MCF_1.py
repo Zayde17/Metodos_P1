@@ -109,10 +109,10 @@ if stock_seleccionado:
     # ------------------- Cálculo de violaciones -------------------
     st.subheader("Evaluación de Violaciones")
 
-    window = 252
+    window = 253
     rendimientos = df_rendimientos[stock_seleccionado].values
     violaciones_data = []
-    
+
 if len(rendimientos) <= window:
     st.warning("No hay suficientes datos históricos para evaluar violaciones (mínimo 253 días requeridos).")
 else:
