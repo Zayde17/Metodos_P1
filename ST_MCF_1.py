@@ -197,10 +197,13 @@ if stock_seleccionado:
     st.bar_chart(df_resultados.set_index("Alpha").T)
     st.text("Sin profundizar en cada método, el ES bajo la t de Student (ES_t) se posiciona como el estimador de riesgo más robusto, al capturar" \
     "adecuadamente las pérdidas extremas en activos volátiles. Aunque puede sobreestimar en algunos casos, esto se debe a la alta volatilidad de " \
-    "los últimos 10 años, por lo que una mejora sería acotar el historial a un rango más reciente, como 5 años. En contraste, los demás métodos " \
-    "tienden a subestimar o sobreestimar el riesgo según la forma de los retornos y los eventos incluidos. El método histórico es el que más tiende " \
+    "los últimos 10 años, por lo que una mejora sería acotar el historial a un rango más reciente, como 5 años.") 
+
+    st.text("En contraste, los demás métodos tienden a subestimar o sobreestimar el riesgo según la forma de los retornos y los eventos incluidos. El método histórico es el que más tiende " \
     "a sobreestimar el riesgo, debido a la inclusión de eventos extremos poco representativos del contexto actual, como crisis financieras o la pandemia, " \
-    "lo que lo convierte en el menos confiable de los analizados. Solo el modelo normal se aproxima en algunos escenarios al de la t, dado su parentesco matemático. " \
+    "lo que lo convierte en el menos confiable de los analizados.")
+    
+    st.text("Solo el modelo normal se aproxima en algunos escenarios al de la t, dado su parentesco matemático." \
     "En resumen, ES_t destaca como el modelo más coherente para una gestión de riesgo prudente, siempre que se ajuste adecuadamente el periodo histórico a analizar.")
     
     ##################################################################################################
