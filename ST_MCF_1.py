@@ -36,7 +36,7 @@ def calcular_rendimientos(df):
 
 def var_es_historico(df_rendimientos, stock_seleccionado, alpha):
     hVaR = df_rendimientos[stock_seleccionado].quantile(1 - alpha)
-    ES_hist = df_rendimientos[stock_seleccionado][df_rendimientos[stock_seleccionado] <= hVaR].mean()
+    ES_hist = df_rendimientos[stock_seleccionado][df_rendimientos[stock_seleccionado] <= hVaR].mean() *(-1)
     return hVaR, ES_hist
 
 def var_es_parametrico_normal(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado):
@@ -176,7 +176,7 @@ if stock_seleccionado:
         
         resultados.append([alpha, hVaR, ES_hist, VaR_norm, ES_norm, VaR_t, ES_t, VaR_mc, ES_mc])
 
-    df_resultados = pd.DataFrame(resultados * (-1), columns=["Alpha", "hVaR", "ES_hist", "VaR_Norm", "ES_Norm", "VaR_t", "ES_t", "VaR_MC", "ES_MC"])
+    df_resultados = pd.DataFrame(resultados, columns=["Alpha", "hVaR", "ES_hist", "VaR_Norm", "ES_Norm", "VaR_t", "ES_t", "VaR_MC", "ES_MC"])
 
     st.subheader("Tabla comparativa de VaR y ES")
     st.text("Esta tabla muestra los resultados de los diferentes métodos de cálculo de VaR y ES")
