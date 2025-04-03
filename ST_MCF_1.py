@@ -450,7 +450,7 @@ if stock_seleccionado:
         y=alt.Y('Valor', title='VaR (%)'),
         color=alt.Color('Métrica', scale=alt.Scale(
             domain=['VaR 95% (Vol Móvil)', 'VaR 99% (Vol Móvil)'],
-            range=['#DAA520', '#FFD700']  # DoradoR, DoradoD
+            range=['#4682B4', '#FFD700']  # Azul, DoradoD
         )),
         tooltip=[
             alt.Tooltip('Date', title='Fecha', format='%Y-%m-%d'),
