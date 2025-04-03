@@ -375,7 +375,7 @@ if stock_seleccionado:
     # Cálculo de violaciones de VaR y ES con Rolling Window
 
     st.header("Cálculo de Violaciones de VaR y ES con Rolling Window")
-    st.text("A continuacion se calcularán las violaciones de los resultados obtenidos anteriormente, es decir calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularón con Rolling window")
+    st.text("A continuacion se calcularán las violaciones de los resultados obtenidos anteriormente, es decir, calcularemos el porcentaje de violaciones que hubo en cada una de las medidas de riesgo que se calcularón con Rolling window")
     
     var_dict ={
         "VaR Normal 95%": VaRN_rolling_df_95['0.95% VaRN Rolling'],
@@ -495,7 +495,7 @@ if stock_seleccionado:
 
     df_resultados2 = pd.DataFrame.from_dict(resultados_var2, orient='index', columns=['Violaciones', 'Porcentaje (%)']).reset_index()
     df_resultados2[['Método', 'Nivel de Confianza']] = df_resultados2['index'].str.rsplit(' ', n=1, expand=True)
-    df_resultados2 = df_resultados[['Método', 'Nivel de Confianza', 'Violaciones', 'Porcentaje (%)']]
+    df_resultados2 = df_resultados2[['Método', 'Nivel de Confianza', 'Violaciones', 'Porcentaje (%)']]
 
     st.dataframe(
     df_resultados2.style
