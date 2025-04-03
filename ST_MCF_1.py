@@ -37,7 +37,7 @@ def calcular_rendimientos(df):
 def var_es_historico(df_rendimientos, stock_seleccionado, alpha):
     hVaR = df_rendimientos[stock_seleccionado].quantile(1 - alpha)
     ES_hist = df_rendimientos[stock_seleccionado][df_rendimientos[stock_seleccionado] <= hVaR].mean()
-    return hVaR, ES_hist
+    return hVaR, ES_hist *(-1)
 
 def var_es_parametrico_normal(rendimiento_medio, std_dev, alpha, df_rendimientos, stock_seleccionado):
     VaR_norm = norm.ppf(1 - alpha, rendimiento_medio, std_dev)
