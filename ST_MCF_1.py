@@ -339,7 +339,8 @@ if stock_seleccionado:
     "más propensos a ser impactados por shocks de mercado. Esto se refleja en los picos más pronunciados en sus gráficas de VaRH durante la crisis de 2020. ")
 
     st.text("Por otro lado, AAPL, MSFT y GOOGL exhiben una mayor estabilidad en sus estimaciones de VaR, con una menor discrepancia entre el VaRH y el VaRN. Esto indica " \
-    "que sus perfiles de riesgo son menos sensibles a los eventos extremos y que el modelo paramétrico normal se aproxima más a la realidad.")
+    "que sus perfiles de riesgo son menos sensibles a los eventos extremos y que el modelo paramétrico normal se aproxima más a la realidad." \
+    "")
 
     st.text("A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%.")
     
