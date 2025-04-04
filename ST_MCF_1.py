@@ -374,7 +374,7 @@ if stock_seleccionado:
     # Combinar las capas
 
     chart = (base + es_layer).properties(
-        title=f'VaR con Volatilidad Móvil - {stock_seleccionado}',
+        title=f'ESH y ESN con Rolling Window - {stock_seleccionado}',
         width=800,
         height=400
     ).configure_legend(
@@ -391,6 +391,13 @@ if stock_seleccionado:
     ).interactive()
 
     st.altair_chart(chart, use_container_width=True)
+
+    st.text("El ES Histórico tiende a ser más sensible a la magnitud de las pérdidas extremas que el ES Paramétrico (Normal). Cuando ocurren caídas significativas, el ESH Rolling (líneas roja y naranja) refleja la profundidad de esas pérdidas, resultando en valores más negativos.")
+
+    st.text("El ES Paramétrico (Normal) es más suave y se basa en la volatilidad reciente. Al asumir una distribución normal, el ES paramétrico estima la pérdida esperada más allá del VaR basándose en las propiedades de esa distribución. Esto hace que su respuesta a eventos extremos puntuales sea menos drástica que la del ES histórico.")
+
+    st.text("Generalmente, el ES (tanto paramétrico como histórico) es más negativo que el VaR para el mismo nivel de confianza. Esto se debe a que el ES considera la severidad de las pérdidas más allá del umbral del VaR.")
+
 
     ###################################################################################################################################
 #inciso e)
@@ -526,3 +533,6 @@ if stock_seleccionado:
     .applymap(color_porcentaje, subset=['Porcentaje (%)']),
     hide_index=True  # Ocultar la primera columna de índice
     )
+
+    st.text("El modelo de VaR con volatilidad móvil permite adaptarse a cambios en el mercado y ofrece una estimación más realista del riesgo. Si el porcentaje de violaciones es menor al 2.5%, el modelo se considera adecuado. Un exceso de violaciones indica que el riesgo está subestimado, mientras que muy pocas violaciones pueden implicar un modelo demasiado conservador.")
+    
