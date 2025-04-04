@@ -275,16 +275,6 @@ if stock_seleccionado:
         VaRH_rolling_df_99.rename(columns={'0.99% VaRH Rolling': 'value'}).assign(Metrica='0.99% VaRH Rolling')
     ]).reset_index()
 
-    st.text("Tras analizar las gráficas de VaR para AAPL, MSFT, GOOGL, TSLA, AMZN y SPY, se observa que el VaR Histórico (VaRH) tiende a sobreestimar " \
-    "el riesgo en comparación con el VaR Paramétrico (VaRN). Esto se debe a la inclusión de eventos extremos en el historial de datos, como la crisis " \
-    "financiera de 2008 y la pandemia de COVID-19, que distorsionan la estimación del riesgo actual.")
-
-    st.text("En particular, TSLA y AMZN muestran una mayor sensibilidad a estos eventos extremos en el VaRH, lo que sugiere que sus perfiles de riesgo son " \
-    "más propensos a ser impactados por shocks de mercado. Esto se refleja en los picos más pronunciados en sus gráficas de VaRH durante la crisis de 2020. ")
-
-    st.text("Por otro lado, AAPL, MSFT y GOOGL exhiben una mayor estabilidad en sus estimaciones de VaR, con una menor discrepancia entre el VaRH y el VaRN. Esto indica " \
-    "que sus perfiles de riesgo son menos sensibles a los eventos extremos y que el modelo paramétrico normal se aproxima más a la realidad.")
-
     # Convertir a porcentaje y limpiar datos
     df_var = df_var.dropna()
 
@@ -391,6 +381,16 @@ if stock_seleccionado:
     ).interactive()
 
     st.altair_chart(chart, use_container_width=True)
+
+    st.text("Tras analizar las gráficas de VaR para AAPL, MSFT, GOOGL, TSLA, AMZN y SPY, se observa que el VaR Histórico (VaRH) tiende a sobreestimar " \
+    "el riesgo en comparación con el VaR Paramétrico (VaRN). Esto se debe a la inclusión de eventos extremos en el historial de datos, como la crisis " \
+    "financiera de 2008 y la pandemia de COVID-19, que distorsionan la estimación del riesgo actual.")
+
+    st.text("En particular, TSLA y AMZN muestran una mayor sensibilidad a estos eventos extremos en el VaRH, lo que sugiere que sus perfiles de riesgo son " \
+    "más propensos a ser impactados por shocks de mercado. Esto se refleja en los picos más pronunciados en sus gráficas de VaRH durante la crisis de 2020. ")
+
+    st.text("Por otro lado, AAPL, MSFT y GOOGL exhiben una mayor estabilidad en sus estimaciones de VaR, con una menor discrepancia entre el VaRH y el VaRN. Esto indica " \
+    "que sus perfiles de riesgo son menos sensibles a los eventos extremos y que el modelo paramétrico normal se aproxima más a la realidad.")
 
     ###################################################################################################################################
 #inciso e)
