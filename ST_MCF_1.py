@@ -510,6 +510,8 @@ if stock_seleccionado:
 
     st.altair_chart(chart, use_container_width=True)
 
+    st.text("El VaR Histórico y Paramétrico al 95% presentan más violaciones que los demás métodos, lo que sugiere que subestiman el riesgo y no son una buena estimación. En contraste, el Expected Shortfall (ES) cumple con el criterio de una buena estimación en todos los casos, mostrando menos violaciones y mayor estabilidad. Para minimizar las violaciones, el ES es la mejor opción, seguido del VaR al 99%.")
+
     # Calcular violaciones 
 
     var_dict2 = {
@@ -535,4 +537,4 @@ if stock_seleccionado:
     )
 
     st.text("El modelo de VaR con volatilidad móvil permite adaptarse a cambios en el mercado y ofrece una estimación más realista del riesgo. Si el porcentaje de violaciones es menor al 2.5%, el modelo se considera adecuado. Un exceso de violaciones indica que el riesgo está subestimado, mientras que muy pocas violaciones pueden implicar un modelo demasiado conservador.")
-    
+
