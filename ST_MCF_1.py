@@ -195,7 +195,7 @@ if stock_seleccionado:
     st.subheader("Gráfico de comparación de VaR y ES")
     st.text("Este gráfico muestra la comparación de los diferentes métodos de cálculo de VaR y ES")
     st.bar_chart(df_resultados.set_index("Alpha").T)
-    st.text("Sin profundizar en cada método, el ES bajo la t de Student (ES_t) se posiciona como el estimador de riesgo más robusto, al capturar " \
+    st.text("El ES bajo la t de Student (ES_t) se posiciona como el estimador de riesgo más robusto, al capturar " \
     "adecuadamente las pérdidas extremas en activos volátiles. Aunque puede sobreestimar en algunos casos, esto se debe a la alta volatilidad de " \
     "los últimos 10 años, por lo que una mejora sería acotar el historial a un rango más reciente, como 5 años.") 
 
@@ -433,6 +433,9 @@ if stock_seleccionado:
     hide_index=True  # Ocultar la primera columna de índice
     )
 
+    st.text("El VaR Histórico y Paramétrico al 95% presentan más violaciones que los demás métodos, lo que sugiere que subestiman el riesgo y no son una buena estimación. En contraste, el Expected Shortfall (ES) cumple con el criterio de una buena estimación en todos los casos, mostrando menos violaciones y mayor estabilidad. Para minimizar las violaciones, el ES es la mejor opción, seguido del VaR al 99%.")
+
+
     ##############################################################################################################################
 #inciso f)
 
@@ -509,8 +512,6 @@ if stock_seleccionado:
     ).interactive()
 
     st.altair_chart(chart, use_container_width=True)
-
-    st.text("El VaR Histórico y Paramétrico al 95% presentan más violaciones que los demás métodos, lo que sugiere que subestiman el riesgo y no son una buena estimación. En contraste, el Expected Shortfall (ES) cumple con el criterio de una buena estimación en todos los casos, mostrando menos violaciones y mayor estabilidad. Para minimizar las violaciones, el ES es la mejor opción, seguido del VaR al 99%.")
 
     # Calcular violaciones 
 
