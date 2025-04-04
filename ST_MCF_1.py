@@ -341,7 +341,7 @@ if stock_seleccionado:
     st.text("Por otro lado, AAPL, MSFT y GOOGL exhiben una mayor estabilidad en sus estimaciones de VaR, con una menor discrepancia entre el VaRH y el VaRN. Esto indica " \
     "que sus perfiles de riesgo son menos sensibles a los eventos extremos y que el modelo paramétrico normal se aproxima más a la realidad.")
 
-    st.text("(U+2022) A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%.")
+    st.text("   A continuación observaremos los resultados del ES paramétrico (Normal) como también el historico al 99% y al 95%.")
     
     # Preparar los datos combinados
     df_es = pd.concat([
